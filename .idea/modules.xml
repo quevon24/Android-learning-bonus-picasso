@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Bonus_Picasso.iml" filepath="$PROJECT_DIR$/Bonus_Picasso.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bonus_picasso.iml" filepath="$PROJECT_DIR$/bonus_picasso.iml" />
+      <module fileurl="file://C:\Users\quevon24\AndroidStudioProjects\Bonus_Picasso\app\app.iml" filepath="C:\Users\quevon24\AndroidStudioProjects\Bonus_Picasso\app\app.iml" />
+      <module fileurl="file://C:\Users\quevon24\AndroidStudioProjects\Bonus_Picasso\bonus_picasso.iml" filepath="C:\Users\quevon24\AndroidStudioProjects\Bonus_Picasso\bonus_picasso.iml" />
     </modules>
   </component>
 </project>

@@ -24,8 +24,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    // de memoria
     private List<String> images;
+    // links externos
     private String[] animals;
+    // imagenes en el proyecto en drawable
     private int[] parties;
 
     private AnimalAdapter animalAdapter;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         parties = getPartyPics();
         images = getImagesPath();
 
+        // adaptadores que aceptan diferentes fuentes de datos
         animalAdapter = new AnimalAdapter(this, animals, R.layout.image_layout);
         partyAdapter = new PartyAdapter(this, parties, R.layout.image_layout);
         imagesAdapter = new ImagesAdapter(this, images, R.layout.image_layout);
@@ -56,11 +60,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
+        // adaptador por defecto
         recyclerView.setAdapter(animalAdapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // menu de opciones cambiar tipo de imagenes a cargar
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -68,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // acciones de opciones de tipo de imagen a cargar del option menu
         switch (item.getItemId()) {
             case R.id.links_adapter:
                 recyclerView.setAdapter(animalAdapter);
@@ -77,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.memory_adapter:
                 checkForPermission();
+                // el clear limpia el array de imagenes
                 images.clear();
+                // peticion de todas las imagenes
                 images.addAll(getImagesPath());
                 recyclerView.setAdapter(imagesAdapter);
+                // notificar cambios al adaptador
                 imagesAdapter.notifyDataSetChanged();
                 return true;
             default:
@@ -88,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkForPermission() {
+        // Comprobar si se tienen permisos para la app, almacenar en variable
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            // Si no se tiene el permiso, se solicita con un cuadro de dialogo
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_READ_EXTERNAL_MEMORY);
         }
     }
@@ -105,8 +117,11 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_READ_EXTERNAL_MEMORY:
                 if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // si se han aceptado los permisos
                     images.clear();
+                    // añadir todoo
                     images.addAll(getImagesPath());
+                    // notificar que hubo cambios al adaptador
                     imagesAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -166,18 +181,34 @@ public class MainActivity extends AppCompatActivity {
         List<String> listOfAllImages = new ArrayList<String>();
 
         if (hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            // si se tiene el permiso para leer el external storage(memoria)
+            // lista de columnas
+            // MediaStore.Images.Media.DATA es un string, obtiene el path de la imagen
+            // MediaStore.Images.Media._ID
             final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
 
+            // crear cursor y se le pasa un query
+            // se le pasa la uri
+            // los null son condiciones para el query
+            // el MediaStore.Images.Media._ID es para ordenar por ID o puede llevar un null
             Cursor cursor = getContentResolver()
                     .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, MediaStore.Images.Media._ID);
 
             if (cursor != null) {
+                // si el cursor no es nulo
                 if (cursor.moveToFirst()) {
+                    // el cursor empieza en la posicion -1
+                    // movetoFirst se mueve al indice 0 y devuelve verdadero si se tienen datos
+                    // se hace un do while
                     do {
+                        // se recoje el valor
                         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                        // se añade a la lista
                         listOfAllImages.add(path);
                     } while (cursor.moveToNext());
+                    // moveToNext revisar si existe el siguiente indice
                 }
+                // cerrar el cursor
                 cursor.close();
             }
         }
@@ -186,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        // si se resume la aplicacion carga nuevas imagenes del dispositivo si es que hubo cambios
         super.onResume();
         images.clear();
         images.addAll(getImagesPath());

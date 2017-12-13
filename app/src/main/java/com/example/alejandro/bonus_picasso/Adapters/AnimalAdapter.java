@@ -24,6 +24,7 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
 
     public AnimalAdapter(Context context, String[] animals, int layout) {
+        // constructor
         this.context = context;
         this.animals = animals;
         this.layout = layout;
@@ -31,12 +32,15 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // inflar el layout
         View v = LayoutInflater.from(context).inflate(layout, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        // llamar a picasso
+        // fit() ocupar todoo el imageview
         Picasso.with(context).load(animals[position]).fit().placeholder(R.drawable.spinner).into(holder.image, new Callback() {
             @Override
             public void onSuccess() {
