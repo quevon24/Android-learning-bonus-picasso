@@ -41,14 +41,18 @@ public class AnimalAdapter extends RecyclerView.Adapter<AnimalAdapter.ViewHolder
     public void onBindViewHolder(final ViewHolder holder, int position) {
         // llamar a picasso
         // fit() ocupar todoo el imageview
+        //holder.image es la imagen cargada
+        // el Callback se llama cuando termina la carga de la imagen (con exito o error)
         Picasso.with(context).load(animals[position]).fit().placeholder(R.drawable.spinner).into(holder.image, new Callback() {
             @Override
             public void onSuccess() {
+                // una vez que se cargo la imagen ejecutr alguna accion
                 //holder.image.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onError() {
+                // si no cargo por algun error
                 Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
             }
         });

@@ -200,8 +200,10 @@ public class MainActivity extends AppCompatActivity {
                     // el cursor empieza en la posicion -1
                     // movetoFirst se mueve al indice 0 y devuelve verdadero si se tienen datos
                     // se hace un do while
+
                     do {
-                        // se recoje el valor
+                        // se recoje el path de la imagen
+                        // obtener el indice de la columna cursor.getColumnIndex(MediaStore.Images.Media.DATA)
                         String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                         // se añade a la lista
                         listOfAllImages.add(path);
